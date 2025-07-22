@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "weather": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "D:\\OneDrive - Yethi consulting Pvt Ltd\\Desktop\\Tenjin-AI-MCP-Server",
+        "run",
+        "weather.py"
+      ],
+      "type": "stdio"
+    }
+  },
+  "inputs": []
+}
