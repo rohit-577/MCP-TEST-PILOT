@@ -38,9 +38,9 @@ class MCPClient:
             command="uv",
             args= [
                 "--directory",
-                "D:\\OneDrive - Yethi consulting Pvt Ltd\\Desktop\\Tenjin-AI-MCP-Server",
+                "D:\\OneDrive - Yethi consulting Pvt Ltd\\Desktop\\Tenjin-AI-MCP\\mcp-server",
                 "run",
-                "weather.py"
+                "server.py"
             ],
             type="stdio",
             env=None
