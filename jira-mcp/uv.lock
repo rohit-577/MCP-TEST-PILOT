@@ -686,6 +686,7 @@ dependencies = [
     { name = "fastmcp" },
     { name = "ipykernel" },
     { name = "jira" },
+    { name = "logging" },
     { name = "markdown" },
     { name = "openai" },
     { name = "pandas" },
@@ -703,6 +704,7 @@ requires-dist = [
     { name = "fastmcp", specifier = ">=2.10.6" },
     { name = "ipykernel", specifier = ">=6.30.0" },
     { name = "jira", specifier = ">=3.8.0" },
+    { name = "logging", specifier = ">=0.4.9.6" },
     { name = "markdown", specifier = ">=3.8.2" },
     { name = "openai", specifier = ">=1.97.1" },
     { name = "pandas", specifier = ">=2.3.1" },
@@ -803,6 +805,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/99/1b/72906d554acfeb588
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2f/57/6bffd4b20b88da3800c5d691e0337761576ee688eb01299eae865689d2df/jupyter_core-5.8.1-py3-none-any.whl", hash = "sha256:c28d268fc90fb53f1338ded2eb410704c5449a358406e8a948b75706e24863d0", size = 28880, upload-time = "2025-05-27T07:38:15.137Z" },
 ]
+
+[[package]]
+name = "logging"
+version = "0.4.9.6"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/93/4b/979db9e44be09f71e85c9c8cfc42f258adfb7d93ce01deed2788b2948919/logging-0.4.9.6.tar.gz", hash = "sha256:26f6b50773f085042d301085bd1bf5d9f3735704db9f37c1ce6d8b85c38f2417", size = 96029, upload-time = "2013-06-04T23:43:22.086Z" }
 
 [[package]]
 name = "lxml"

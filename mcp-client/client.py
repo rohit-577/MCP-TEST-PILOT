@@ -30,9 +30,9 @@ class MCPClient:
             command="uv",
             args=[
                 "--directory",
-                "D:\\OneDrive - Yethi Consulting Pvt Ltd\\Desktop\\Tenjin-AI-MCP\\mcp-server",
+                "D:\\OneDrive - Yethi Consulting Pvt Ltd\\Desktop\\Tenjin-AI-MCP\\jira-mcp",
                 "run",
-                "server.py"
+                "main.py"
             ],
             type="stdio",
             env=None
@@ -64,7 +64,7 @@ class MCPClient:
         } for tool in response.tools]
 
         response = self.openai.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=self.messages,
             tools=available_tools,
             tool_choice="auto"
@@ -94,7 +94,7 @@ class MCPClient:
                 })
 
             second_response = self.openai.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=self.messages
             )
             self.messages.append(second_response.choices[0].message)  # ✅ Add final assistant message

@@ -12,6 +12,7 @@ dependencies = [
     "fastmcp>=2.10.6",
     "ipykernel>=6.30.0",
     "jira>=3.8.0",
+    "logging>=0.4.9.6",
     "markdown>=3.8.2",
     "openai>=1.97.1",
     "pandas>=2.3.1",
