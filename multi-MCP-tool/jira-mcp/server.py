@@ -215,7 +215,7 @@ def fetch_story(key: str) -> Dict[str, Any]:
         logging.error(f"Error fetching story {key}: {e}")
         return {"success": False, "error": str(e)}
 
-# --------- TENJIN-AI API TOOLS ---------
+# --------- website's-AI API TOOLS ---------
 API_BASE = "WEBSITE'S URL"
 
 def make_request(method: str, endpoint: str, payload: Optional[Dict] = None, params: Optional[Dict] = None) -> Dict[str, Any]:
