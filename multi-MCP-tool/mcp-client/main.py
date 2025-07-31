@@ -19,7 +19,7 @@ load_dotenv()
 # Configuration
 # ------------------------
 class Settings(BaseSettings):
-    server_script_path: str = "D:\\OneDrive - Yethi Consulting Pvt Ltd\\Desktop\\Tenjin-AI-MCP\\jira-mcp\\main.py"
+    server_script_path: str = "path\\jira-mcp\\server.py"
 
 settings = Settings()
 
