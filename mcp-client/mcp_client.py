@@ -7,7 +7,6 @@ from mcp.client.stdio import stdio_client
 from datetime import datetime
 import json
 import os
-import uuid
 
 from openai import OpenAI
 # from anthropic.types import Message
@@ -22,9 +21,6 @@ class MCPClient:
         self.tools = []
         self.messages = []
         # self.logger = logger
-
-        self.conversation_id = str(uuid.uuid4())
-        self.created_at = datetime.now().isoformat()
 
     async def call_tool(self, tool_name: str, tool_args: dict):
         """Call a tool with the given name and arguments"""
@@ -57,7 +53,7 @@ class MCPClient:
                 "--directory",
                 "D:\\OneDrive - Yethi Consulting Pvt Ltd\\Desktop\\Tenjin-AI-MCP\\jira-mcp",
                 "run",
-                "server.py"
+                "main.py"
                 ],
                 type="stdio",
                 env=None
@@ -112,6 +108,7 @@ class MCPClient:
         try:
             return self.llm.chat.completions.create(
                 model="gpt-4o",
+                max_tokens=1000,
                 messages=self.messages,
                 tools=self.tools,
                 tool_choice="auto"
@@ -121,13 +118,12 @@ class MCPClient:
             raise Exception(f"Failed to call LLM: {str(e)}")
 
     async def process_query(self, query: str):
-        system_prompt = """Process a query using OpenAI and available tools, returning all messages at the end "
+        system_prompt = """Process a query using OpenAI and available tools, returning all messages at the end
         You are an expert AI assistant and QA engineer. Your primary goal is to assist the user "
                 "by answering questions, providing information, and generating detailed test cases when requested. "
                 "You have access to various tools to gather information from uploaded files, Jira, and GitLab. "
                 "When the user asks for information that can be retrieved by a tool, call the appropriate tool. "
                 "If you need more information to call a tool (e.g., a sprint ID or issue key), ask the user for it. "
-                "All the keywords you get from a file or a link etc , check for those keywords in all the jira stories without asking for sprintid or key , just go through everything and try to find something related ,and summarize your answers after getting information from it ,if there is nothing related then give your own answer"
                 "After retrieving information using tools, synthesize it to provide comprehensive and human-readable answers, "
                 "especially when generating test cases. Maintain context throughout the conversation. "
                 "If the user says 'quit' or 'end conversation', acknowledge it and end the session. "
@@ -233,37 +229,23 @@ class MCPClient:
             #     f"Query processing error details: {traceback.format_exc()}"
             # )
             raise
-    def get_conversation_path(self):
-        os.makedirs("conversations", exist_ok=True)
-        return os.path.join("conversations", f"{self.conversation_id}.json")
-
-    async def load_conversation(self, conversation_id: str):
-        """Load a saved conversation by ID."""
-        self.conversation_id = conversation_id
-        path = self.get_conversation_path()
-
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"Conversation {conversation_id} not found.")
-
-        with open(path, "r") as f:
-            data = json.load(f)
-            self.messages = data.get("messages", [])
-            self.created_at = data.get("created_at", datetime.now().isoformat())
-
     async def log_conversation(self, conversation: list):
-        """Save entire conversation to a consistent file."""
-        path = self.get_conversation_path()
-        serializable_conversation = []
+        """Log the conversation to json file"""
+        # Create conversations directory if it doesn't exist
+        os.makedirs("conversations", exist_ok=True)
 
+        # Convert conversation to JSON-serializable format
+        serializable_conversation = []
         for message in conversation:
             try:
                 serializable_message = {
                     "role": message["role"],
                     "content": []
                 }
-
+                
+                # Handle both string and list content
                 if isinstance(message["content"], str):
-                    serializable_message["content"] = message["content"]
+                    serializable_message["content"] = message["content"]                  
                 elif isinstance(message["content"], list):
                     for content_item in message["content"]:
                         if hasattr(content_item, 'to_dict'):
@@ -274,21 +256,22 @@ class MCPClient:
                             serializable_message["content"].append(content_item.model_dump())
                         else:
                             serializable_message["content"].append(content_item)
-
+                
                 serializable_conversation.append(serializable_message)
             except Exception as e:
+                # self.logger.error(f"Error processing message: {str(e)}")
+                # self.logger.debug(f"Message content: {message}")
                 raise
 
-        data_to_save = {
-            "id": self.conversation_id,
-            "created_at": self.created_at,
-            "messages": serializable_conversation
-        }
-
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filepath = os.path.join("conversations", f"conversation_{timestamp}.json")
+        
         try:
-            with open(path, "w") as f:
-                json.dump(data_to_save, f, indent=2, default=str)
+            with open(filepath, "w") as f:
+                json.dump(serializable_conversation, f, indent=2, default=str)
         except Exception as e:
+            # self.logger.error(f"Error writing conversation to file: {str(e)}")
+            # self.logger.debug(f"Serializable conversation: {serializable_conversation}")
             raise
 
     async def cleanup(self):

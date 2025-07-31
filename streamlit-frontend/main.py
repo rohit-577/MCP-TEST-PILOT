@@ -1,15 +1,23 @@
 import asyncio
+# from utils.logger import logger
 import streamlit as st
 from chatbot import Chatbot
 
 
 async def main():
-    st.session_state.setdefault("server_connected", False)
-    st.session_state.setdefault("tools", [])
-    st.session_state.setdefault("messages", [])
-    st.session_state.setdefault("conversation_id", "")
+    if "server_connected" not in st.session_state:
+        st.session_state["server_connected"] = False
 
+    if "tools" not in st.session_state:
+        st.session_state["tools"] = []
+        
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = []
+        
     API_URL = "http://localhost:8000"
+
+    st.set_page_config(page_title="Tenjin Bot", page_icon=":shark:")
+
     chatbot = Chatbot(API_URL)
     await chatbot.render()
 
