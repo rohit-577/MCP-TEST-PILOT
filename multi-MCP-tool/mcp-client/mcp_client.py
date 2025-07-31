@@ -55,7 +55,7 @@ class MCPClient:
                 command="uv", 
                 args=[
                 "--directory",
-                "D:\\OneDrive - Yethi Consulting Pvt Ltd\\Desktop\\Tenjin-AI-MCP\\jira-mcp",
+                "PATH\\jira-mcp",
                 "run",
                 "server.py"
                 ],
