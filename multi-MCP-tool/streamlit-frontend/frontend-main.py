@@ -81,8 +81,8 @@ class Chatbot:
             return response
 
     async def render(self):
-        st.set_page_config(page_title="Tenjin Bot", page_icon=":shark:")
-        st.title("Tenjin Bot")
+        st.set_page_config(page_title="yourBot", page_icon=":shark:")
+        st.title("your Bot")
 
         # --- Sidebar ---
         with st.sidebar:
